@@ -23,10 +23,10 @@ public class Data {
 		}
 	}
 
-	public String findSmallestDifferenceBetweenTwoColumns(String labelMax, String labelMin, String label)
+	public String findIdWithSmallestDifferenceBetweenTwoColumns(String labelID, String labelMax, String labelMin)
 	{
-		int columnMaxTemp = Helper.findColumnIDWithLabel(labels,"MxT");
-		int columnMinTemp = Helper.findColumnIDWithLabel(labels,"MnT");
+		int columnMaxTemp = Helper.findColumnIDWithLabel(labels,labelMax);
+		int columnMinTemp = Helper.findColumnIDWithLabel(labels,labelMin);
 		
 		if(columnMaxTemp < 0 && columnMinTemp < 0) 
 		{
@@ -42,7 +42,7 @@ public class Data {
 		if(rowId<0)
 			return "No Value";
 		
-		int columnDay = Helper.findColumnIDWithLabel(labels, "Day");
+		int columnDay = Helper.findColumnIDWithLabel(labels, labelID);
 		
 		return data[columnDay][rowId];
 	}
