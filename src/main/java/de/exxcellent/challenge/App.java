@@ -13,12 +13,13 @@ public final class App {
     public static void main(String... args) {
 
         // Your preparation code …
-    	CSVReader reader = new CSVReader();
+    	CSVReader readerWeather = new CSVReader();
     	String weatherFilePath = "src/main/resources/de/exxcellent/challenge/weather.csv";
+    	CSVReader readerFootball = new CSVReader();
     	String footballFilePath = "src/main/resources/de/exxcellent/challenge/football.csv";
     	
-    	Data weather = new Data(weatherFilePath, reader);
-    	Data football = new Data(footballFilePath, reader);
+    	Data weather = new Data(weatherFilePath, readerWeather);
+    	Data football = new Data(footballFilePath, readerFootball);
 
         String dayWithSmallestTempSpread = weather.findIdWithSmallestDifferenceBetweenTwoColumns("Day", "MxT", "MnT");     // Your day analysis function call …
         String teamWithSmallesGoalSpread = football.findIdWithSmallestDifferenceBetweenTwoColumns("Team", "Goals", "Goals Allowed"); // Your goal analysis function call …

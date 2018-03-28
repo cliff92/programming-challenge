@@ -4,46 +4,65 @@ import de.exxcellent.reader.IFileReader;
 import de.exxcellent.utilities.Helper;
 
 public class Data {
-	
-	public String [] labels;
+
+	public String[] labels;
 	public String[][] data;
-	
-	public Data(String filePath, IFileReader reader)
-	{
-		if(reader.readFile(filePath))
-		{
+
+	/**
+	 * When we construct this class, the data is read from the file with the
+	 * forwarded reader. We transpose the data to easier work with it.
+	 * 
+	 * @param filePath
+	 *            Path to the file
+	 * @param reader
+	 *            This reader is used to read the file with the forwarded file path
+	 */
+	public Data(String filePath, IFileReader reader) {
+		if (reader != null && reader.readFile(filePath)) {
+
 			labels = reader.getLabels();
-			
-			// we transpose the data matrix to have in each line all data points of one label
 			data = Helper.transposeMatrix(reader.getData());
-		}
-		else 
-		{
+
+		} else {
 			System.out.println("Error during the reading of the file!");
 		}
 	}
 
-	public String findIdWithSmallestDifferenceBetweenTwoColumns(String labelID, String labelMax, String labelMin)
-	{
-		int columnMaxTemp = Helper.findColumnIDWithLabel(labels,labelMax);
-		int columnMinTemp = Helper.findColumnIDWithLabel(labels,labelMin);
-		
-		if(columnMaxTemp < 0 && columnMinTemp < 0) 
-		{
-			return "No Value";
+	/**
+	 * This method returns the value of the row with the smallest difference between
+	 * two user defined columns
+	 * 
+	 * @param labelID
+	 *            The value of this row is returned
+	 * @param labelMax
+	 *            Column label Max
+	 * @param labelMin
+	 *            Column label Min
+	 * @return We return the value of the labelId row with the smallest difference
+	 */
+	public String findIdWithSmallestDifferenceBetweenTwoColumns(String labelID, String labelMax, String labelMin) {
+		int columnMaxTemp = Helper.findColumnIDWithLabel(labels, labelMax);
+		int columnMinTemp = Helper.findColumnIDWithLabel(labels, labelMin);
+
+		if (columnMaxTemp < 0 && columnMinTemp < 0) {
+			return "Min:Max: No label with this value";
 		}
-			
-		
+
 		String[] maxValues = data[columnMaxTemp];
 		String[] minValues = data[columnMinTemp];
+
+		int rowId = Helper.findIDWithMinimumDifference(maxValues, minValues);
+
+		if (rowId < 0) {
+			return "No minimum found";
+		}
+
+		int columnId = Helper.findColumnIDWithLabel(labels, labelID);
+
+		if (columnId < 0) {
+			return "No label with this value";
+		}
 		
-		int rowId = Helper.findIDWithMinimumDifference(maxValues,minValues);
-		
-		if(rowId<0)
-			return "No Value";
-		
-		int columnDay = Helper.findColumnIDWithLabel(labels, labelID);
-		
-		return data[columnDay][rowId];
+		return data[columnId][rowId];
 	}
 }

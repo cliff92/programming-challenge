@@ -13,52 +13,42 @@ public class CSVReader implements IFileReader {
 
 	private String[] labels;
 	private String[][] data;
-	
+
 	@Override
 	public boolean readFile(String filePath) {
 		BufferedReader bufferReader = null;
 		String lineTmp;
-		String csvSplitBy = ",";
+		String splitBy = ",";
 		boolean firstLine = true;
 		List<String[]> dataTmp = new ArrayList<String[]>();
-		
+
 		try {
 			bufferReader = new BufferedReader(new FileReader(filePath));
-			while((lineTmp = bufferReader.readLine()) != null)
-			{
-				String [] lineSeperated = lineTmp.split(csvSplitBy);
-				
-				if(firstLine)
-				{
+			while ((lineTmp = bufferReader.readLine()) != null) {
+				String[] lineSeperated = lineTmp.split(splitBy);
+
+				// We read the first line separately because in our case the labels
+				// are stored in it
+				if (firstLine) {
 					labels = lineSeperated;
 					firstLine = false;
-				}
-				else 
-				{
+				} else {
 					dataTmp.add(lineSeperated);
 				}
 			}
-			
+
 			data = Helper.convertListOfArraysToMatrix(dataTmp);
-		} 
-		catch (FileNotFoundException e)
-		{
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return false;
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		}
-		finally 
-		{
-			if(bufferReader != null)
-			{
+		} finally {
+			if (bufferReader != null) {
 				try {
 					bufferReader.close();
-				}
-				catch(IOException e){
+				} catch (IOException e) {
 					e.printStackTrace();
 					return false;
 				}
@@ -77,5 +67,4 @@ public class CSVReader implements IFileReader {
 		return data;
 	}
 
-	
 }
