@@ -12,7 +12,7 @@ import de.exxcellent.utilities.Helper;
 public class CSVReader implements IFileReader {
 
 	private String[] labels;
-	private float[][] data;
+	private String[][] data;
 	
 	@Override
 	public boolean readFile(String filePath) {
@@ -20,8 +20,7 @@ public class CSVReader implements IFileReader {
 		String lineTmp;
 		String csvSplitBy = ",";
 		boolean firstLine = true;
-		float[] tmpValues;
-		List<float[]> dataTmp = new ArrayList<float[]>();
+		List<String[]> dataTmp = new ArrayList<String[]>();
 		
 		try {
 			bufferReader = new BufferedReader(new FileReader(filePath));
@@ -36,12 +35,7 @@ public class CSVReader implements IFileReader {
 				}
 				else 
 				{
-					tmpValues = new float[lineSeperated.length];
-					for(int i=0;i<lineSeperated.length;i++)
-					{
-						tmpValues[i] = Float.parseFloat(lineSeperated[i]);
-					}
-					dataTmp.add(tmpValues);
+					dataTmp.add(lineSeperated);
 				}
 			}
 			
@@ -79,7 +73,7 @@ public class CSVReader implements IFileReader {
 	}
 
 	@Override
-	public float[][] getData() {
+	public String[][] getData() {
 		return data;
 	}
 

@@ -6,6 +6,6 @@ public interface IFileReader {
 	
 	public String[] getLabels();
 	
-	public float[][] getData();
+	public String[][] getData();
 	
 }
